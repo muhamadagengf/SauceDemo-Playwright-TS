@@ -11,6 +11,6 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.57.0",
-    "allure-playwright": "^3.4.5"
+    "allure-playwright": "^3.6.0"
   }
 }

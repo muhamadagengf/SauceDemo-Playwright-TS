@@ -68,8 +68,8 @@ jobs:
         path: allure-history
 
     - name: Allure Report action
-      # Ganti v1.7 menjadi v1.11
-      uses: simple-elf/allure-report-action@v1.11 
+      # Gunakan v1.11 atau master, tapi pastikan syntax-nya benar
+      uses: simple-elf/allure-report-action@master
       if: always()
       with:
         allure_results: allure-results
