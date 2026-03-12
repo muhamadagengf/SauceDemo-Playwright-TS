@@ -7,7 +7,7 @@ on:
   schedule:
     - cron: '0 13 * * *' # Running otomatis jam 20:00 WIB
 
-# Biar log Actions bersih dari warning Node 20
+# Solusi ampuh buat ngilangin kotak kuning/warning Node 20
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -21,11 +21,13 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
         with:
-          node-version: 24 # Update ke Node 24 biar recruiter liat lo pake tech terbaru
+          node-version: 24
           cache: 'npm'
 
       - name: Install dependencies
@@ -49,11 +51,10 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        # Tanpa npx bddgen karena ini versi Vanilla (.spec.ts)
         run: npx playwright test
-        continue-on-error: true
+        continue-on-error: true # Supaya report tetep dibuat meski ada test yang gagal
 
-      - name: Upload Allure Results as Artifact
+      - name: Upload Raw Allure Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -61,7 +62,7 @@ jobs:
           path: allure-results/
           retention-days: 7
 
-      - name: Get Allure history
+      - name: Get Allure History
         uses: actions/checkout@v4
         if: always()
         continue-on-error: true
@@ -69,7 +70,7 @@ jobs:
           ref: gh-pages
           path: allure-history
 
-      - name: Allure Report action
+      - name: Generate Allure Report
         uses: simple-elf/allure-report-action@master
         if: always()
         with:
@@ -77,7 +78,7 @@ jobs:
           allure_history: allure-history
           keep_reports: 20
 
-      - name: Deploy report to Github Pages
+      - name: Deploy Report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
