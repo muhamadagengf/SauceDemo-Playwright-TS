@@ -1,4 +1,4 @@
-name: Playwright OrangeHr
+name: Playwright Sauce Demo
 on:
   push:
     branches: [ main, master ]
@@ -68,7 +68,8 @@ jobs:
         path: allure-history
 
     - name: Allure Report action
-      uses: simple-elf/allure-report-action@v1.7
+      # Ganti v1.7 menjadi v1.11
+      uses: simple-elf/allure-report-action@v1.11 
       if: always()
       with:
         allure_results: allure-results

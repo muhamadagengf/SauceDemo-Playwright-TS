@@ -4,8 +4,12 @@ export default defineConfig({
   testDir: './tests',
 
   reporter: [
-    ['list'],
-    ['allure-playwright']
+    ['list'], // Tetap tampilkan log di terminal
+    ['allure-playwright', { 
+       outputFolder: 'allure-results',
+       detail: true,
+       suiteTitle: false 
+    }]
   ],
 projects: [
     {
